@@ -1,43 +1,47 @@
+-- This file consists of basic vim commands and api usages for navigating splitting copy paste etc...
+
+-- Tabspacing stuffs
 vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
-vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
+
+-- Numbers
 vim.cmd("set relativenumber")
-vim.cmd("set foldmethod=syntax")
-vim.g.mapleader = " "
-
-vim.opt.swapfile = false
-
--- Navigate vim panes better
-vim.keymap.set('n', '<c-k>', ':wincmd k<CR>')
-vim.keymap.set('n', '<c-j>', ':wincmd j<CR>')
-vim.keymap.set('n', '<c-h>', ':wincmd h<CR>')
-vim.keymap.set('n', '<c-l>', ':wincmd l<CR>')
-
-vim.keymap.set('n', '<leader>h', ':nohlsearch<CR>')
 vim.wo.number = true
 
--- Navigate buffers
-vim.api.nvim_set_keymap('n', '<Tab>', ':bnext<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<S-Tab>', ':bprevious<CR>', { noremap = true, silent = true })
+-- Maping the leader to <space> key
+vim.g.mapleader = " "
+
+-- Navigating Panes
+vim.keymap.set('n', '<c-k>', ':wincmd k<CR>', { desc = "Navigate Pane - Up" })
+vim.keymap.set('n', '<c-j>', ':wincmd j<CR>', { desc = "Navigate Pane - Down" })
+vim.keymap.set('n', '<c-h>', ':wincmd h<CR>', { desc = "Navigate Pane - Left" })
+vim.keymap.set('n', '<c-l>', ':wincmd l<CR>', { desc = "Navigate Pane - Right" })
+
+-- Navigating Buffers
+vim.keymap.set('n', '<leader>[', ':bnext<CR>', { desc = "Navigate Buffer - Next Buffer" },
+  { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>]', ':bprevious<CR>', { desc = "Navigate Buffer - Previous Buffer" },
+  { noremap = true, silent = true })
+
+-- Close buffer
+vim.keymap.set('n', '<leader>kw', ':bufdo bd<CR>', { desc = "Close all buffers" })
 
 -- Copy and Paste for external Clipboard
-vim.opt.clipboard:append("unnamedplus")
+vim.opt.clipboard:append('unnamedplus')
 
--- Undo history file for undo tree
-vim.opt.undofile = true
-vim.opt.undodir = vim.fn.expand("~/.config/nvim/undo")
+-- Split Panes
+vim.keymap.set('n', '<leader>s', ':vsplit<space><CR>', { desc = "Split Pane" }, { noremap = true, silent = false })
 
--- Split panes
-vim.keymap.set(
-  "n",
-  "<C-s>",
-  ":vsplit<Space>",
-  { noremap = true, silent = false }
-)
+-- Vim Swapfile to false
+vim.opt.swapfile = false
 
--- close buffers
+-- Netrw
+-- vim.keymap.set('n', '<leader>e', ':Lexplore<CR>', {desc = "Open Netrw"}, { noremap = true, silent = true })
 
-vim.keymap.set('n', '<leader>ka', ':bufdo bd<CR>', { desc = 'Close all buffers' })
+-- Disable Netrw
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
-vim.keymap.set('n', '<leader>kw', ':bufdo if bufnr("%") ~= bufnr("") | bd | endif<CR>', { desc = 'Close all except current buffer' })
+-- Color 24-bit support
+vim.opt.termguicolors = true
